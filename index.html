@@ -17,7 +17,7 @@
             Wins: <span id="user-wins"></span><br>
             Losses: <span id="user-losses"></span><br>
             Guesses Left: <span id="guesses-left"></span><br>
-            Guesses So Far: <span id="guesses-so-far"></span><br>
+            Letters Guessed: <span id="letters-guessed"></span><br>
         </div>
     </div>
 
@@ -28,12 +28,22 @@
     // creating variables to hold the number of wins, and losses
     var wins = 0;
     var losses = 0;
+    var guessesLeft = 9;
+    var lettersGuessed = [];
 
     // use the document object to grab elements in our markup for the scoreboard
-    var userGuessDiv = document.getElementById("user-guess");
+    var userGuessDiv = document.getElementById("guesses-left");
     var computerPickDiv = document.getElementById("computer-pick");
     var userWinsDiv = document.getElementById("user-wins");
     var userLossesDiv = document.getElementById("user-losses");
+    var lettersGuessedDiv = document.getElementById("letters-guessed");
+
+
+    userWinsDiv.textContent=wins;
+    userGuessDiv.textContent=guessesLeft;
+    userLossesDiv.textContent=losses;
+
+
 
         // this function is run whenever the user presses a key
         document.onkeyup = function(event) {
@@ -41,10 +51,37 @@
             // determines which key was pressed
             var userGuess = event.key;
 
+            // list guesses made by user
+            lettersGuessed.push(userGuess);
+
             // randomly chooses a choice from the options array. this is the computer's choice
             var computerPick = computerChoices[Math.floor(Math.random() * computerChoices.length)];
 
+            // if userGuess=computerPick, wins increase by one
+            if (userGuess===computerPick) {
+                wins++;
+            }
+            // if userGuess != computerPick, # guesses lefts decreases by one
+            if (userGuess!==computerPick) {
+                
+                if (guessesLeft===0) {
+                losses++;
+                guessesLeft=9;
+                lettersGuessed=[];
+                }
+                else guessesLeft--;
+            }
+            // if # guesses = 0, loses increases by one, and game resets
             
+
+            // if # guesses = 0, reset letters guessed
+         
+            //display changes to screen
+            userWinsDiv.textContent=wins;
+            userGuessDiv.textContent=guessesLeft;
+            userLossesDiv.textContent=losses;
+            lettersGuessedDiv.textContent=lettersGuessed;
+            //
 
         }
    </script>
